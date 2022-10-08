@@ -13,7 +13,9 @@ class HomePageVC: UIViewController {
     let seeButton = EUButton(color: .systemBlue, title: "See Countries", systemName: "arrow.right.square")
     let favoriteButton = EUButton(color: .systemPink, title: "Favorite Countries", systemName: "heart.circle")
     
-    var array = [Country]()
+    
+    
+  
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,8 +23,10 @@ class HomePageVC: UIViewController {
         view.backgroundColor = .systemBackground
         configureUI()
         actions()
-        
+      
     }
+    
+    
     
     func actions() {
         seeButton.addTarget(self, action: #selector(tappedSeeButton), for: .touchUpInside)

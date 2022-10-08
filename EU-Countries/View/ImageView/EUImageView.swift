@@ -6,9 +6,11 @@
 //
 
 import UIKit
+import AlamofireImage
+import Alamofire
 
 class EUImageView: UIImageView {
-
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         configure()
@@ -34,15 +36,13 @@ class EUImageView: UIImageView {
     func downloadImage(urlString: String) {
         guard let url = URL(string: urlString) else { return }
         
-        let task = URLSession.shared.dataTask(with: url) { data, response, error in
-            if error != nil { return }
-            guard let response = response as? HTTPURLResponse, response.statusCode == 200 else { return }
-            guard let data = data else { return }
-            guard let image = UIImage(data: data) else { return }
+        AF.request(url).response { response in
+            if let _ = response.error { return }
+            guard let rs = response.response, rs.statusCode == 200 else { return }
+            guard let data = response.data else { return }
             DispatchQueue.main.async {
-                self.image = image
+                self.image = UIImage(data: data)
             }
         }
-        task.resume()
     }
 }
