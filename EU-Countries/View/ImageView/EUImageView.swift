@@ -27,8 +27,8 @@ class EUImageView: UIImageView {
     }
     private func configure() {
         translatesAutoresizingMaskIntoConstraints = false
-        layer.borderWidth = 2
-        layer.borderColor = UIColor.black.cgColor
+        layer.borderWidth = 3
+        layer.borderColor = UIColor.systemGray3.cgColor
         layer.cornerRadius = 10
         clipsToBounds = true
     }

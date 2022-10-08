@@ -37,7 +37,10 @@ class CountriesListVC: UIViewController {
         title = "Countries"
         view.backgroundColor = .systemBackground
     }
-    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.navigationBar.isHidden = false
+    }
     func getCountries() {
         NetworkManager.shared.getCountries {[weak self] result in
             guard let self = self else { return }

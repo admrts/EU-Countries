@@ -11,6 +11,8 @@
 		49C4486B28F18EC3003EADE5 /* CountriesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C4486A28F18EC3003EADE5 /* CountriesCell.swift */; };
 		49C4486E28F18EFC003EADE5 /* EULabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C4486D28F18EFC003EADE5 /* EULabel.swift */; };
 		49C4487028F19714003EADE5 /* DetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C4486F28F19714003EADE5 /* DetailVC.swift */; };
+		49D99AED28F21FB800667D95 /* EU-Countries.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 49D99AEB28F21FB800667D95 /* EU-Countries.xcdatamodeld */; };
+		49D99AEF28F221A500667D95 /* FavoriteCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D99AEE28F221A500667D95 /* FavoriteCell.swift */; };
 		49FF4D1D28F0D8F9000A58A2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49FF4D1C28F0D8F9000A58A2 /* AppDelegate.swift */; };
 		49FF4D1F28F0D8F9000A58A2 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49FF4D1E28F0D8F9000A58A2 /* SceneDelegate.swift */; };
 		49FF4D2628F0D8FA000A58A2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 49FF4D2528F0D8FA000A58A2 /* Assets.xcassets */; };
@@ -29,6 +31,8 @@
 		49C4486A28F18EC3003EADE5 /* CountriesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountriesCell.swift; sourceTree = "<group>"; };
 		49C4486D28F18EFC003EADE5 /* EULabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EULabel.swift; sourceTree = "<group>"; };
 		49C4486F28F19714003EADE5 /* DetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailVC.swift; sourceTree = "<group>"; };
+		49D99AEC28F21FB800667D95 /* EU-Countries.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "EU-Countries.xcdatamodel"; sourceTree = "<group>"; };
+		49D99AEE28F221A500667D95 /* FavoriteCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteCell.swift; sourceTree = "<group>"; };
 		49FF4D1928F0D8F9000A58A2 /* EU-Countries.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "EU-Countries.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		49FF4D1C28F0D8F9000A58A2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		49FF4D1E28F0D8F9000A58A2 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -61,6 +65,7 @@
 			isa = PBXGroup;
 			children = (
 				49C4486A28F18EC3003EADE5 /* CountriesCell.swift */,
+				49D99AEE28F221A500667D95 /* FavoriteCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -140,6 +145,7 @@
 			isa = PBXGroup;
 			children = (
 				49FF4D4728F0ED37000A58A2 /* Countries.swift */,
+				49D99AEB28F21FB800667D95 /* EU-Countries.xcdatamodeld */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -256,6 +262,7 @@
 				49FF4D1D28F0D8F9000A58A2 /* AppDelegate.swift in Sources */,
 				49C4487028F19714003EADE5 /* DetailVC.swift in Sources */,
 				49C4486E28F18EFC003EADE5 /* EULabel.swift in Sources */,
+				49D99AED28F21FB800667D95 /* EU-Countries.xcdatamodeld in Sources */,
 				49FF4D3D28F0DDAB000A58A2 /* EUImageView.swift in Sources */,
 				49FF4D1F28F0D8F9000A58A2 /* SceneDelegate.swift in Sources */,
 				49FF4D4028F0E18A000A58A2 /* CountriesListVC.swift in Sources */,
@@ -263,6 +270,7 @@
 				49FF4D4228F0E276000A58A2 /* FavoritesVC.swift in Sources */,
 				49FF4D3228F0D957000A58A2 /* HomePageVC.swift in Sources */,
 				49FF4D4828F0ED37000A58A2 /* Countries.swift in Sources */,
+				49D99AEF28F221A500667D95 /* FavoriteCell.swift in Sources */,
 				49FF4D3A28F0DBEC000A58A2 /* EUButton.swift in Sources */,
 				49C4486B28F18EC3003EADE5 /* CountriesCell.swift in Sources */,
 			);
@@ -493,6 +501,19 @@
 			productName = Alamofire;
 		};
 /* End XCSwiftPackageProductDependency section */
+
+/* Begin XCVersionGroup section */
+		49D99AEB28F21FB800667D95 /* EU-Countries.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				49D99AEC28F21FB800667D95 /* EU-Countries.xcdatamodel */,
+			);
+			currentVersion = 49D99AEC28F21FB800667D95 /* EU-Countries.xcdatamodel */;
+			path = "EU-Countries.xcdatamodeld";
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 49FF4D1128F0D8F9000A58A2 /* Project object */;
 }

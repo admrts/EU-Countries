@@ -25,6 +25,10 @@ class HomePageVC: UIViewController {
         actions()
       
     }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.navigationBar.isHidden = true
+    }
     
     
     
@@ -51,7 +55,7 @@ class HomePageVC: UIViewController {
             flagImage.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             flagImage.heightAnchor.constraint(equalTo: view.widthAnchor,multiplier: 0.35),
             
-            seeButton.topAnchor.constraint(equalTo: flagImage.bottomAnchor,constant: 200),
+            seeButton.topAnchor.constraint(equalTo: flagImage.bottomAnchor,constant: 150),
             seeButton.leadingAnchor.constraint(equalTo: flagImage.leadingAnchor),
             seeButton.trailingAnchor.constraint(equalTo: flagImage.trailingAnchor),
             seeButton.heightAnchor.constraint(equalTo: seeButton.widthAnchor, multiplier: 0.25),
