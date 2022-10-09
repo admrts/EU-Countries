@@ -8,6 +8,8 @@
 import UIKit
 
 class DetailVC: UIViewController {
+    
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
 
     let countryNameLabel = EULabel(textAlignment: .center, fontSize: 30, weight: .heavy)
     let capitalLabel = EULabel(textAlignment: .center, fontSize: 23, weight: .semibold)
@@ -15,21 +17,40 @@ class DetailVC: UIViewController {
     let languageLabel = EULabel(textAlignment: .center, fontSize: 23, weight: .semibold)
     let currencyLabel = EULabel(textAlignment: .center, fontSize: 23, weight: .semibold)
     
+    
     let flag = EUImageView(named: "flag")
     var flagUrl = ""
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemBackground
-        flag.downloadImage(urlString: flagUrl)
+        
+        configureViewController()
         configureUI()
     }
     
+    private func configureViewController() {
+        view.backgroundColor = .systemBackground
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Add Favorite", image: nil, target: self, action: #selector(tappedActionButton))
+    }
+    @objc func tappedActionButton() {
+        let favoriteCountry = FavoriteCountry(context: context)
+        favoriteCountry.name = countryNameLabel.text
+        favoriteCountry.capital = capitalLabel.text
+        favoriteCountry.population = populationLabel.text
+        favoriteCountry.language = languageLabel.text
+        favoriteCountry.currency = currencyLabel.text
+        let data = flag.image?.jpegData(compressionQuality: 0.5)
+        favoriteCountry.flag = data
+        favoriteCountry.id = UUID()
+        saveProfile()
+    }
     
     
     func configureUI() {
         view.addSubview(flag)
+        flag.downloadImage(urlString: flagUrl)
+        
         view.addSubview(countryNameLabel)
         view.addSubview(capitalLabel)
         view.addSubview(populationLabel)
@@ -54,21 +75,33 @@ class DetailVC: UIViewController {
             capitalLabel.trailingAnchor.constraint(equalTo: countryNameLabel.trailingAnchor),
             capitalLabel.heightAnchor.constraint(equalToConstant: 25),
             
-            populationLabel.topAnchor.constraint(equalTo: capitalLabel.bottomAnchor,constant: 12),
+            populationLabel.topAnchor.constraint(equalTo: capitalLabel.bottomAnchor,constant: 20),
             populationLabel.leadingAnchor.constraint(equalTo: capitalLabel.leadingAnchor),
             populationLabel.trailingAnchor.constraint(equalTo: capitalLabel.trailingAnchor),
             populationLabel.heightAnchor.constraint(equalToConstant: 25),
             
-            languageLabel.topAnchor.constraint(equalTo: populationLabel.bottomAnchor,constant: 12),
+            languageLabel.topAnchor.constraint(equalTo: populationLabel.bottomAnchor,constant: 20),
             languageLabel.leadingAnchor.constraint(equalTo: populationLabel.leadingAnchor),
             languageLabel.trailingAnchor.constraint(equalTo: populationLabel.trailingAnchor),
             languageLabel.heightAnchor.constraint(equalToConstant: 25),
             
-            currencyLabel.topAnchor.constraint(equalTo: languageLabel.bottomAnchor,constant: 12),
+            currencyLabel.topAnchor.constraint(equalTo: languageLabel.bottomAnchor,constant: 20),
             currencyLabel.leadingAnchor.constraint(equalTo: languageLabel.leadingAnchor),
             currencyLabel.trailingAnchor.constraint(equalTo: languageLabel.trailingAnchor),
             currencyLabel.heightAnchor.constraint(equalToConstant: 25),
             
         ])
+    }
+}
+//MARK: - Coredata
+extension DetailVC {
+    func saveProfile() {
+        do  {
+            try context.save()
+            print("success")
+            presentEUAlertOnMainThred(title: "Succesfully", message: "This country added your favorite list.", buttonTitle: "Ok")
+        }catch {
+            print("Save Failed")
+        }
     }
 }

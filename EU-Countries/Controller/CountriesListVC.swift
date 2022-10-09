@@ -73,7 +73,8 @@ class CountriesListVC: UIViewController {
     }
 }
 
-extension CountriesListVC: UITableViewDataSource, UITableViewDelegate {
+//MARK: - Tableview DataSource
+extension CountriesListVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.names == [] ? 0 : names.count
     }
@@ -83,6 +84,10 @@ extension CountriesListVC: UITableViewDataSource, UITableViewDelegate {
         cell.nameLabel.text = names[indexPath.row]
         return cell
     }
+}
+
+//MARK: - Tableview Delegate
+extension CountriesListVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let destVC = DetailVC()
         destVC.flagUrl = flags[indexPath.row]
@@ -93,6 +98,4 @@ extension CountriesListVC: UITableViewDataSource, UITableViewDelegate {
         destVC.currencyLabel.text = "Currency: \(currency[indexPath.row])"
         navigationController?.pushViewController(destVC, animated: true)
     }
-    
-    
 }

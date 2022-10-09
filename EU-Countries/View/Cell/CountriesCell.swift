@@ -9,12 +9,12 @@ import UIKit
 
 class CountriesCell: UITableViewCell {
 
-    static let reuseID = "FavoritesCell"
+    
     
     let nameLabel = EULabel(textAlignment: .left, fontSize: 15, weight: .semibold)
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        super.init(style: style, reuseIdentifier: "cell")
         configure()
         
     }

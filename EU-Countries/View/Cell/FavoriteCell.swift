@@ -8,11 +8,10 @@
 import UIKit
 
 class FavoriteCell: UITableViewCell {
+
     
-    static let reuseID = "FavoritesCell"
-    
-    let nameLabel = EULabel(textAlignment: .left, fontSize: 15, weight: .semibold)
     let flagImage = EUImageView(named: "flag")
+    let nameLabel = EULabel(textAlignment: .left, fontSize: 15, weight: .semibold)
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -23,29 +22,36 @@ class FavoriteCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     public func configure() {
         addSubview(flagImage)
         addSubview(nameLabel)
         selectionStyle = .none
+        accessoryType = .disclosureIndicator
         backgroundColor = .systemBackground
-        nameLabel.layer.borderWidth = 0
-        nameLabel.textColor = .label
         
-        let padding: CGFloat = 16
+        
+        
+        nameLabel.layer.borderWidth = 0
+       
+      
+        let padding: CGFloat = 8
         
         NSLayoutConstraint.activate([
             
-            flagImage.topAnchor.constraint(equalTo: topAnchor,constant: padding),
+            
+            flagImage.centerYAnchor.constraint(equalTo: centerYAnchor),
             flagImage.leadingAnchor.constraint(equalTo: leadingAnchor,constant: padding),
-            flagImage.bottomAnchor.constraint(equalTo: bottomAnchor,constant: -padding),
-            flagImage.widthAnchor.constraint(equalTo: widthAnchor,multiplier: 0.15),
-            flagImage.heightAnchor.constraint(equalTo: flagImage.widthAnchor,multiplier: 0.70),
+            flagImage.widthAnchor.constraint(equalTo: widthAnchor,multiplier: 0.20),
+            flagImage.heightAnchor.constraint(equalTo: flagImage.widthAnchor,multiplier: 0.60),
+            
             
             nameLabel.centerYAnchor.constraint(equalTo: flagImage.centerYAnchor),
             nameLabel.leadingAnchor.constraint(equalTo: flagImage.trailingAnchor,constant: padding),
             nameLabel.trailingAnchor.constraint(equalTo: trailingAnchor,constant: -padding),
+            nameLabel.heightAnchor.constraint(equalToConstant: 17),
             
         ])
     }
+
 }
