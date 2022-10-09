@@ -17,8 +17,11 @@ class DetailVC: UIViewController {
     let languageLabel = EULabel(textAlignment: .center, fontSize: 23, weight: .semibold)
     let currencyLabel = EULabel(textAlignment: .center, fontSize: 23, weight: .semibold)
     
-    let coredataManager = CoredataManager()
+    var checkFavoriteButton = true
     
+    
+    let coredataManager = CoredataManager()
+   
     let flag = EUImageView(named: "flag")
     var flagUrl = ""
     
@@ -32,7 +35,13 @@ class DetailVC: UIViewController {
     
     private func configureViewController() {
         view.backgroundColor = .systemBackground
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Add Favorite", image: nil, target: self, action: #selector(tappedActionButton))
+        if checkFavoriteButton {
+            let addFavoriteButton = UIBarButtonItem(title: "Add Favorite", image: nil, target: self, action: #selector(tappedActionButton))
+            navigationItem.rightBarButtonItem = addFavoriteButton
+        }else {
+            checkFavoriteButton = false
+        }
+       
     }
     @objc func tappedActionButton() {
         let favoriteCountry = FavoriteCountry(context: context)

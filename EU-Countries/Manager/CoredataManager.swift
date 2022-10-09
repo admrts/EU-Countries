@@ -14,10 +14,8 @@ class CoredataManager {
     func saveData() -> Bool{
         do  {
             try context.save()
-            print("success")
             return true
         }catch {
-            print("Save Failed")
             return false
         }
     }
@@ -35,15 +33,11 @@ class CoredataManager {
             }
             return true
         }catch {
-            print("Delete error \(error)")
             return false
         }
     }
     func loadData(completed: ((_ dataModel: CoredataModel) -> Void)  ) {
         var coredataModel = CoredataModel()
-//        coredataModel.nameArray.removeAll()
-//        coredataModel.flagArray.removeAll()
-//        coredataModel.idArray.removeAll()
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: "FavoriteCountry")
         request.returnsObjectsAsFaults = false
         request.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
@@ -67,7 +61,6 @@ class CoredataManager {
                 coredataModel.idArray.append(id)
                 completed(coredataModel)
             }
-            print("asd")
         }catch {
             completed(coredataModel)
             print(error.localizedDescription)

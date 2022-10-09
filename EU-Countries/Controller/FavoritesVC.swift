@@ -49,6 +49,9 @@ class FavoritesVC: UIViewController {
         title = "Favorite Country"
         navigationController?.navigationBar.prefersLargeTitles = true
         view.backgroundColor = .systemBackground
+        navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.label]
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.label]
+        navigationController?.navigationBar.tintColor = UIColor.label;
     }
     
     func configureTableView() {
@@ -97,6 +100,7 @@ extension FavoritesVC: UITableViewDelegate {
         destVC.currencyLabel.text = coreDataModel?.currencyArray[i]
         destVC.languageLabel.text = coreDataModel?.languageArray[i]
         destVC.countryNameLabel.text = coreDataModel?.nameArray[i]
+        destVC.checkFavoriteButton = false
         navigationController?.pushViewController(destVC, animated: true)
     }
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
