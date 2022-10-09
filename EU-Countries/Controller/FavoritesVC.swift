@@ -11,7 +11,7 @@ import CoreData
 class FavoritesVC: UIViewController {
     
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-    
+
     let tableview: UITableView = {
         let tb = UITableView()
         tb.translatesAutoresizingMaskIntoConstraints = false
@@ -19,40 +19,38 @@ class FavoritesVC: UIViewController {
         return tb
     }()
     
-    var nameArray = [String]()
-    var flagArray = [Data]()
-    var idArray = [UUID]()
-    var capitalArray = [String]()
-    var populationArray = [String]()
-    var languageArray = [String]()
-    var currencyArray = [String]()
+    let coredataManager = CoredataManager()
+    var coreDataModel: CoredataModel?
     
-    
-    
-
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        loadCountry()
+        loadData()
         configureViewController()
         configureTableView()
-       
     }
-   
+    
     //MARK: - willAppear
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.isHidden = false
     }
     
+    func loadData() {
+        coredataManager.loadData { dataModel in
+            self.coreDataModel = dataModel
+            self.tableview.reloadData()
+        }
+    }
+    
     func configureViewController() {
-        if nameArray.count == 0 {
-            presentEUAlertOnMainThred(title: "Favorite Country doesn't found", message: "Please go back and countries detail page and click add favorites button.", buttonTitle: "Ok")
+        if ((coreDataModel?.nameArray.isEmpty) == nil) {
+            self.presentEUAlertOnMainThred(title: "Favorite Country was not found", message: "Please go country list and select country than click add favorite ", buttonTitle: "Ok")
         }
         title = "Favorite Country"
         navigationController?.navigationBar.prefersLargeTitles = true
         view.backgroundColor = .systemBackground
     }
+    
     func configureTableView() {
         view.addSubview(tableview)
         tableview.backgroundColor = .systemBackground
@@ -67,16 +65,20 @@ class FavoritesVC: UIViewController {
         ])
     }
 }
+
 //MARK: - Tableview DataSource
 extension FavoritesVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return nameArray.count
+        return coreDataModel?.nameArray.count ?? 0
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableview.dequeueReusableCell(withIdentifier: "cell",for: indexPath) as! FavoriteCell
-        cell.nameLabel.text = nameArray[indexPath.row]
-        let data = flagArray[indexPath.row]
-        cell.flagImage.image = UIImage(data: data)
+        
+        
+        cell.nameLabel.text = coreDataModel?.nameArray[indexPath.row]
+        let data = coreDataModel?.flagArray[indexPath.row]
+        cell.flagImage.image = UIImage(data: data!)
+        
         return cell
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -89,80 +91,32 @@ extension FavoritesVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let destVC = DetailVC()
         let i = indexPath.row
-        destVC.flag.image = UIImage(data: flagArray[i])
-        destVC.populationLabel.text = populationArray[i]
-        destVC.capitalLabel.text = capitalArray[i]
-        destVC.currencyLabel.text = currencyArray[i]
-        destVC.languageLabel.text = languageArray[i]
-        destVC.countryNameLabel.text = nameArray[i]
+        destVC.flag.image = UIImage(data: coreDataModel?.flagArray[i] ?? Data())
+        destVC.populationLabel.text = coreDataModel?.populationArray[i]
+        destVC.capitalLabel.text = coreDataModel?.capitalArray[i]
+        destVC.currencyLabel.text = coreDataModel?.currencyArray[i]
+        destVC.languageLabel.text = coreDataModel?.languageArray[i]
+        destVC.countryNameLabel.text = coreDataModel?.nameArray[i]
         navigationController?.pushViewController(destVC, animated: true)
     }
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let deleteAction = UIContextualAction(style: .normal, title: "Delete") { _, _, _ in
             let i = indexPath.row
-            self.deleteCountry(deleteObject: self.idArray[i])
-            self.idArray.remove(at: i)
-            self.capitalArray.remove(at: i)
-            self.nameArray.remove(at: i)
-            self.languageArray.remove(at: i)
-            self.currencyArray.remove(at: i)
-            self.populationArray.remove(at: i)
-            self.flagArray.remove(at: i)
-            self.tableview.reloadData()
+            if self.coredataManager.deleteData(deleteObject: (self.coreDataModel?.idArray[i])!) {
+                self.presentEUAlertOnMainThred(title: "Successful", message: "Country was deleted your favorite list", buttonTitle: "Ok")
+                self.coreDataModel?.idArray.remove(at: i)
+                self.coreDataModel?.capitalArray.remove(at: i)
+                self.coreDataModel?.nameArray.remove(at: i)
+                self.coreDataModel?.languageArray.remove(at: i)
+                self.coreDataModel?.currencyArray.remove(at: i)
+                self.coreDataModel?.populationArray.remove(at: i)
+                self.coreDataModel?.flagArray.remove(at: i)
+                self.tableview.reloadData()
+            } else {
+                self.presentEUAlertOnMainThred(title: "Unexpected Error", message: "Country wasn't deleted your favorite list", buttonTitle: "Ok")
+            }
         }
         deleteAction.backgroundColor = .systemRed
-        return UISwipeActionsConfiguration(actions: [deleteAction
-                                                    ])
-    }
-}
-
-extension FavoritesVC {
-    func loadCountry() {
-        nameArray.removeAll()
-        flagArray.removeAll()
-        idArray.removeAll()
-        
-        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "FavoriteCountry")
-        request.returnsObjectsAsFaults = false
-        request.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
-        
-        do {
-            let countries = try context.fetch(request) as! [NSManagedObject]
-            for country in countries {
-                let name = country.value(forKey: "name") as! String
-                let flag = country.value(forKey: "flag") as! Data
-                let capital = country.value(forKey: "capital") as! String
-                let population = country.value(forKey: "population") as! String
-                let language = country.value(forKey: "language") as! String
-                let currency = country.value(forKey: "currency") as! String
-                let id = country.value(forKey: "id") as! UUID
-                nameArray.append(name)
-                flagArray.append(flag)
-                capitalArray.append(capital)
-                populationArray.append(population)
-                languageArray.append(language)
-                currencyArray.append(currency)
-                idArray.append(id)
-            }
-        }catch {
-            print(error.localizedDescription)
-        }
-    }
-    func deleteCountry(deleteObject: UUID){
-        let idString = deleteObject.uuidString
-        
-        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "FavoriteCountry")
-        request.predicate = NSPredicate(format: "id = %@", idString)
-        do {
-            let results = try context.fetch(request)
-            for result in results as! [NSManagedObject] {
-                context.delete(result)
-                try context.save()
-                presentEUAlertOnMainThred(title: "Succes", message: "Deleted country", buttonTitle: "Ok")
-            }
-            
-        }catch {
-            print("Delete error \(error)")
-        }
+        return UISwipeActionsConfiguration(actions: [deleteAction])
     }
 }

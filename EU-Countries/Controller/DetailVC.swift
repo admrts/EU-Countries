@@ -17,6 +17,7 @@ class DetailVC: UIViewController {
     let languageLabel = EULabel(textAlignment: .center, fontSize: 23, weight: .semibold)
     let currencyLabel = EULabel(textAlignment: .center, fontSize: 23, weight: .semibold)
     
+    let coredataManager = CoredataManager()
     
     let flag = EUImageView(named: "flag")
     var flagUrl = ""
@@ -43,7 +44,15 @@ class DetailVC: UIViewController {
         let data = flag.image?.jpegData(compressionQuality: 0.5)
         favoriteCountry.flag = data
         favoriteCountry.id = UUID()
-        saveProfile()
+        if coredataManager.saveData() {
+            self.presentEUAlertOnMainThred(title: "Successful",
+                                           message: "This country added your favorites list.",
+                                           buttonTitle: "Ok")
+        }else {
+            self.presentEUAlertOnMainThred(title: "Unsuccessful",
+                                           message: "Unexpected error",
+                                           buttonTitle: "Ok")
+        }
     }
     
     
@@ -56,9 +65,7 @@ class DetailVC: UIViewController {
         view.addSubview(populationLabel)
         view.addSubview(languageLabel)
         view.addSubview(currencyLabel)
-        
-        
-        
+    
         NSLayoutConstraint.activate([
             flag.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 12),
             flag.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.7),
@@ -91,17 +98,5 @@ class DetailVC: UIViewController {
             currencyLabel.heightAnchor.constraint(equalToConstant: 25),
             
         ])
-    }
-}
-//MARK: - Coredata
-extension DetailVC {
-    func saveProfile() {
-        do  {
-            try context.save()
-            print("success")
-            presentEUAlertOnMainThred(title: "Succesfully", message: "This country added your favorite list.", buttonTitle: "Ok")
-        }catch {
-            print("Save Failed")
-        }
     }
 }
