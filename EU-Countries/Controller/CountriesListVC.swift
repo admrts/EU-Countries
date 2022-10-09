@@ -33,19 +33,23 @@ class CountriesListVC: UIViewController {
     
     private func configureViewController() {
         navigationController?.navigationBar.prefersLargeTitles = true
-        
         title = "Countries"
         view.backgroundColor = .systemBackground
+        navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.label]
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.label]
+        navigationController?.navigationBar.tintColor = UIColor.label;
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.isHidden = false
     }
     func getCountries() {
+        self.showLoadingView()
         NetworkManager.shared.getCountries {[weak self] result in
             guard let self = self else { return }
             switch result {
             case .success(let countries):
+                self.dismissLoadingView()
                 for i in 0...countries.count - 1 {
                     self.names.append(countries[i].name)
                     self.flags.append(countries[i].flags.png)

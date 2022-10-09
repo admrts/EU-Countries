@@ -48,7 +48,7 @@ class EUAlertController: UIViewController {
         containerView.backgroundColor = .systemBackground
         containerView.layer.cornerRadius = 16
         containerView.layer.borderWidth = 2
-        containerView.layer.borderColor = UIColor.black.cgColor
+        containerView.layer.borderColor = UIColor.label.cgColor
         
         NSLayoutConstraint.activate([
             containerView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
